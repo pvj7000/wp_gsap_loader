@@ -126,7 +126,7 @@ class GSAP_Script_Loader
                 $plugin['handle'],
                 $plugin['url'],
                 $deps,
-                '3.12.5',
+                '3.14.1',
                 true // In footer
             );
         }
