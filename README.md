@@ -1,10 +1,10 @@
 # GSAP Script Loader
 
-## What is GSAP?
-The GreenSock Animation Platform (GSAP) is a robust JavaScript library for building high-performance animations that work in every major browser. It delivers professional-grade control and flexibility, allowing developers to animate CSS, SVG, Canvas, React, Vue, WebGL, and more with ease.
-
 ## Purpose
 The **GSAP Script Loader** plugin provides a streamlined way for WordPress developers to manage and enqueue GSAP libraries. Instead of manually registering scripts in `functions.php`, this plugin offers a visual interface to toggle specific GSAP modules on and off, loading them directly from a high-performance CDN (`cdnjs`).
+
+## What is GSAP?
+The GreenSock Animation Platform (GSAP) is a robust JavaScript library for building high-performance animations that work in every major browser. It delivers professional-grade control and flexibility, allowing developers to animate CSS, SVG, Canvas, React, Vue, WebGL, and more with ease.
 
 ## Scope
 This plugin focuses strictly on **script management**.
