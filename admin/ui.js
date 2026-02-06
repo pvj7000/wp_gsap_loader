@@ -21,6 +21,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // Auto-Save Functionality
     const toggles = document.querySelectorAll('.gs-plugin-toggle');
 
+    const activateRequiredToggle = (requiredHandle) => {
+        if (!requiredHandle) {
+            return;
+        }
+        const requiredToggle = document.querySelector(`.gs-plugin-toggle[data-handle="${requiredHandle}"]`);
+        if (requiredToggle && !requiredToggle.checked) {
+            requiredToggle.checked = true;
+            requiredToggle.dispatchEvent(new Event('change'));
+        }
+    };
+
+    const enforceDependenciesOnLoad = () => {
+        toggles.forEach(toggle => {
+            const requiredHandle = toggle.getAttribute('data-requires');
+            if (toggle.checked && requiredHandle) {
+                activateRequiredToggle(requiredHandle);
+            }
+        });
+    };
+
+    enforceDependenciesOnLoad();
+
     toggles.forEach(toggle => {
         toggle.addEventListener('change', function () {
             const handle = this.getAttribute('data-handle');
@@ -30,12 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dependency Logic
             // 1. If Plugin B (dependent) is switched ON -> Plugin A (dependency) must turn ON.
             if (isChecked === '1' && requiredHandle) {
-                const requiredToggle = document.querySelector(`.gs-plugin-toggle[data-handle="${requiredHandle}"]`);
-                if (requiredToggle && !requiredToggle.checked) {
-                    requiredToggle.checked = true;
-                    // Trigger change to save the dependency's new state
-                    requiredToggle.dispatchEvent(new Event('change'));
-                }
+                activateRequiredToggle(requiredHandle);
             }
 
             // 2. If Plugin A (dependency) is switched OFF -> Plugin B (dependent) must turn OFF.
