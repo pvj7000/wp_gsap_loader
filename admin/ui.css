@@ -136,6 +136,13 @@
     padding-right: 5px;
 }
 
+.gs-requires {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: -14px;
+    margin-bottom: 18px;
+}
+
 .gs-meta {
     font-size: 0.75rem !important;
     color: #aaa;

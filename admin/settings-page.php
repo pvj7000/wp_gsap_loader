@@ -18,6 +18,7 @@
         // settings_fields( 'gsap_sl_settings_group' ); // Not strictly needed for AJAX but keeps nonce fields if we wanted standard save backup. We'll use our own nonce.
         $options = get_option('gsap_sl_settings', []);
         $plugins = gsap_sl_get_plugins();
+        $handle_to_name = array_column($plugins, 'name', 'handle');
         ?>
 
         <div class="gs-grid" id="gs-plugin-grid">
@@ -42,6 +43,11 @@
                         </label>
                     </div>
                     <p class="gs-plugin-desc"><?php echo esc_html($plugin['description']); ?></p>
+                    <?php if (isset($plugin['requires'])): ?>
+                        <div class="gs-requires">
+                            Requires: <?php echo esc_html($handle_to_name[$plugin['requires']] ?? $plugin['requires']); ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="gs-meta" style="font-size:0.8rem; color:#aaa;">
                         <?php echo esc_html($plugin['filename']); ?>
                     </div>

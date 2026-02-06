@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 function gsap_sl_get_plugins()
 {
     $version = '3.12.5';
-    $base_url = "https://cdnjs.cloudflare.com/ajax/libs/gsap/{$version}/";
+    $base_url = "https://cdn.jsdelivr.net/npm/gsap@{$version}/";
 
     return [
         'gsap-core' => [
@@ -28,6 +28,7 @@ function gsap_sl_get_plugins()
             'description' => 'Create jaw-dropping scroll-based animations with minimal code.',
             'category' => 'Scroll',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         'scrollto' => [
             'name' => 'ScrollTo',
@@ -37,12 +38,13 @@ function gsap_sl_get_plugins()
             'description' => 'Scroll to any position (or element) with smooth animation.',
             'category' => 'Scroll',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         'scrollsmoother' => [
             'name' => 'ScrollSmoother',
             'handle' => 'gsap-scrollsmoother',
             'filename' => 'ScrollSmoother.min.js',
-            'url' => $base_url . 'ScrollSmoother.min.js', // Available on cdnjs for some versions? Assuming yes based on search.
+            'url' => $base_url . 'ScrollSmoother.min.js',
             'description' => 'Silky smooth scrolling with parallax effects. (Requires ScrollTrigger)',
             'category' => 'Scroll',
             'color' => '#00bae2',
@@ -57,6 +59,7 @@ function gsap_sl_get_plugins()
             'description' => 'Seamlessly animate layout changes (FLIP technique).',
             'category' => 'UI',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         'draggable' => [
             'name' => 'Draggable',
@@ -66,6 +69,7 @@ function gsap_sl_get_plugins()
             'description' => 'Make any element draggable with momentum functionality.',
             'category' => 'UI',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         'observer' => [
             'name' => 'Observer',
@@ -75,15 +79,17 @@ function gsap_sl_get_plugins()
             'description' => 'Normalize scroll/touch/pointer events across devices.',
             'category' => 'UI',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         'inertia' => [
             'name' => 'Inertia',
             'handle' => 'gsap-inertia',
             'filename' => 'InertiaPlugin.min.js',
-            'url' => $base_url . 'InertiaPlugin.min.js', // Often listed as draggable dependency or club
+            'url' => $base_url . 'InertiaPlugin.min.js',
             'description' => 'Add momentum-based motion to Draggable (formerly ThrowProps).',
             'category' => 'UI',
             'color' => '#00bae2',
+            'requires' => 'gsap-core',
         ],
         // SVG
         'motionpath' => [
@@ -94,6 +100,7 @@ function gsap_sl_get_plugins()
             'description' => 'Animate any element along a path (SVG, Canvas, etc.).',
             'category' => 'SVG',
             'color' => '#ff8709',
+            'requires' => 'gsap-core',
         ],
         /*
         'drawsvg' => [
@@ -114,6 +121,7 @@ function gsap_sl_get_plugins()
             'description' => 'Morph any SVG shape into another.',
             'category' => 'SVG',
             'color' => '#ff8709',
+            'requires' => 'gsap-core',
         ],
         // Text
         'text' => [
@@ -124,6 +132,7 @@ function gsap_sl_get_plugins()
             'description' => 'Animate text content, simulating typing or replacement.',
             'category' => 'Text',
             'color' => '#a69eff',
+            'requires' => 'gsap-core',
         ],
         /*
         'splittext' => [ // Club
@@ -154,6 +163,7 @@ function gsap_sl_get_plugins()
             'description' => 'Extra easing functions (SlowMo, RoughEase, ExpoScaleEase).',
             'category' => 'Eases',
             'color' => '#f7bdf8',
+            'requires' => 'gsap-core',
         ],
         'customease' => [
             'name' => 'CustomEase',
@@ -163,6 +173,7 @@ function gsap_sl_get_plugins()
             'description' => 'Create custom eases by drawing them or copying SVG paths.',
             'category' => 'Eases',
             'color' => '#f7bdf8',
+            'requires' => 'gsap-core',
         ],
         'customwiggle' => [
             'name' => 'CustomWiggle',
@@ -178,7 +189,7 @@ function gsap_sl_get_plugins()
             'name' => 'CustomBounce',
             'handle' => 'gsap-custombounce',
             'filename' => 'CustomBounce.min.js',
-            'url' => $base_url . 'CustomBounce.min.js', // Club?
+            'url' => $base_url . 'CustomBounce.min.js',
             'description' => 'Create realistic bounce effects. (Requires CustomEase)',
             'category' => 'Eases',
             'color' => '#f7bdf8',
@@ -193,6 +204,7 @@ function gsap_sl_get_plugins()
             'description' => 'Animate pseudo-elements like ::before and ::after.',
             'category' => 'Extra',
             'color' => '#0ae448',
+            'requires' => 'gsap-core',
         ],
         'pixi' => [
             'name' => 'Pixi',
@@ -202,6 +214,7 @@ function gsap_sl_get_plugins()
             'description' => 'Optimized animation for PixiJS objects.',
             'category' => 'Extra',
             'color' => '#0ae448',
+            'requires' => 'gsap-core',
         ],
         'easel' => [
             'name' => 'Easel',
@@ -211,6 +224,7 @@ function gsap_sl_get_plugins()
             'description' => 'Optimized animation for EaselJS objects.',
             'category' => 'Extra',
             'color' => '#0ae448',
+            'requires' => 'gsap-core',
         ],
         'physics2d' => [
             'name' => 'Physics2D',
@@ -220,6 +234,7 @@ function gsap_sl_get_plugins()
             'description' => 'Physics-based movement (gravity, velocity, friction).',
             'category' => 'Extra',
             'color' => '#0ae448',
+            'requires' => 'gsap-core',
         ],
     ];
 }
