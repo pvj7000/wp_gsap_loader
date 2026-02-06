@@ -1,0 +1,196 @@
+:root {
+    --gsap-green: #0ae448;
+    --gsap-dark: #0e100f;
+    --gsap-text: #f0f0f0;
+    --card-bg: #1b1b1b;
+    --bg-color: #f1f1f1;
+    --card-bg-light: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+}
+
+.gs-wrap {
+    max-width: 1200px;
+    margin: 40px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.gs-header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gs-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.gs-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #23282d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gs-docs-link {
+    color: #0073aa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 42px;
+}
+
+.gs-docs-link:hover {
+    color: var(--gsap-green);
+    text-decoration: underline;
+}
+
+.gs-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--gsap-green);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Grid & Cards */
+.gs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.gs-card {
+    background: var(--card-bg-light);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    /* Context for absolute positioning */
+    min-height: 140px;
+    /* Ensure space */
+    /* Default hover color if not set */
+    --hover-color: var(--gsap-green);
+}
+
+.gs-card:hover {
+    transform: none;
+    border-color: var(--hover-color);
+    /* Uses dynamic variable */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.gs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.gs-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 80%;
+    /* Prevent toggle overlap */
+}
+
+/* Updated positioning for category label */
+.gs-cat-label {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    /* Colors applied inline by backend */
+}
+
+.gs-plugin-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.gs-plugin-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 24px;
+    /* Space for meta and label */
+    padding-right: 5px;
+}
+
+.gs-meta {
+    font-size: 0.75rem !important;
+    color: #aaa;
+    /* Ensure it doesn't overlap the label */
+    padding-right: 80px;
+}
+
+/* Compact Toggle Switch */
+.gs-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.gs-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.gs-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.gs-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.gs-slider {
+    background-color: var(--gsap-green);
+}
+
+input:focus+.gs-slider {
+    box-shadow: 0 0 1px var(--gsap-green);
+}
+
+input:checked+.gs-slider:before {
+    transform: translateX(16px);
+}
