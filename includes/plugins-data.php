@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
 
 function gsap_sl_get_plugins()
 {
-    $version = '3.12.5';
-    $base_url = "https://cdn.jsdelivr.net/npm/gsap@{$version}/";
+    $version = '3.14.1';
+    $base_url = "https://cdn.jsdelivr.net/npm/gsap@{$version}/dist/";
 
     return [
         'gsap-core' => [
@@ -102,23 +102,32 @@ function gsap_sl_get_plugins()
             'color' => '#ff8709',
             'requires' => 'gsap-core',
         ],
-        /*
         'drawsvg' => [
             'name' => 'DrawSVG',
             'handle' => 'gsap-drawsvg',
             'filename' => 'DrawSVGPlugin.min.js',
-            'url' => $base_url . 'DrawSVGPlugin.min.js', // Available on cdnjs check returned NO.
+            'url' => $base_url . 'DrawSVGPlugin.min.js',
             'description' => 'Progressively reveal SVG strokes.',
             'category' => 'SVG',
             'color' => '#ff8709',
+            'requires' => 'gsap-core',
         ],
-        */
         'morphsvg' => [
             'name' => 'MorphSVG',
             'handle' => 'gsap-morphsvg',
             'filename' => 'MorphSVGPlugin.min.js',
             'url' => $base_url . 'MorphSVGPlugin.min.js',
             'description' => 'Morph any SVG shape into another.',
+            'category' => 'SVG',
+            'color' => '#ff8709',
+            'requires' => 'gsap-core',
+        ],
+        'motionpathhelper' => [
+            'name' => 'MotionPathHelper',
+            'handle' => 'gsap-motionpathhelper',
+            'filename' => 'MotionPathHelper.min.js',
+            'url' => $base_url . 'MotionPathHelper.min.js',
+            'description' => 'Visualize and edit motion paths with helper tools.',
             'category' => 'SVG',
             'color' => '#ff8709',
             'requires' => 'gsap-core',
@@ -134,8 +143,7 @@ function gsap_sl_get_plugins()
             'color' => '#a69eff',
             'requires' => 'gsap-core',
         ],
-        /*
-        'splittext' => [ // Club
+        'splittext' => [
             'name' => 'SplitText',
             'handle' => 'gsap-splittext',
             'filename' => 'SplitText.min.js',
@@ -143,8 +151,9 @@ function gsap_sl_get_plugins()
             'description' => 'Split HTML text into characters, words, and lines.',
             'category' => 'Text',
             'color' => '#a69eff',
+            'requires' => 'gsap-core',
         ],
-        'scrambletext' => [ // Club
+        'scrambletext' => [
             'name' => 'ScrambleText',
             'handle' => 'gsap-scrambletext',
             'filename' => 'ScrambleTextPlugin.min.js',
@@ -152,8 +161,8 @@ function gsap_sl_get_plugins()
             'description' => 'Cipher-like text scrambling effects.',
             'category' => 'Text',
             'color' => '#a69eff',
+            'requires' => 'gsap-core',
         ],
-        */
         // Eases
         'easepack' => [
             'name' => 'EasePack',
@@ -196,6 +205,16 @@ function gsap_sl_get_plugins()
             'requires' => 'gsap-customease',
         ],
         // Extra / Other
+        'gsdevtools' => [
+            'name' => 'GSDevTools',
+            'handle' => 'gsap-gsdevtools',
+            'filename' => 'GSDevTools.min.js',
+            'url' => $base_url . 'GSDevTools.min.js',
+            'description' => 'Inspect and control timelines with developer tools.',
+            'category' => 'Extra',
+            'color' => '#0ae448',
+            'requires' => 'gsap-core',
+        ],
         'cssrule' => [
             'name' => 'CSSRule',
             'handle' => 'gsap-cssrule',
@@ -232,6 +251,16 @@ function gsap_sl_get_plugins()
             'filename' => 'Physics2DPlugin.min.js',
             'url' => $base_url . 'Physics2DPlugin.min.js',
             'description' => 'Physics-based movement (gravity, velocity, friction).',
+            'category' => 'Extra',
+            'color' => '#0ae448',
+            'requires' => 'gsap-core',
+        ],
+        'physicsprops' => [
+            'name' => 'PhysicsProps',
+            'handle' => 'gsap-physicsprops',
+            'filename' => 'PhysicsPropsPlugin.min.js',
+            'url' => $base_url . 'PhysicsPropsPlugin.min.js',
+            'description' => 'Drive animations with velocity and acceleration physics.',
             'category' => 'Extra',
             'color' => '#0ae448',
             'requires' => 'gsap-core',

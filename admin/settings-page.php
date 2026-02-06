@@ -43,7 +43,7 @@
                         </label>
                     </div>
                     <p class="gs-plugin-desc"><?php echo esc_html($plugin['description']); ?></p>
-                    <?php if (isset($plugin['requires'])): ?>
+                    <?php if (isset($plugin['requires']) && $plugin['requires'] !== 'gsap-core'): ?>
                         <div class="gs-requires">
                             Requires: <?php echo esc_html($handle_to_name[$plugin['requires']] ?? $plugin['requires']); ?>
                         </div>
