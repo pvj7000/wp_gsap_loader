@@ -1,5 +1,7 @@
 # GSAP Script Loader
 
+<img width="1213" height="714" alt="wp-gsap" src="https://github.com/user-attachments/assets/67b999a3-fe9c-4e1d-9bd8-2a1acb9b1bc4" />
+
 ## Purpose
 The **GSAP Script Loader** plugin provides a streamlined way for WordPress developers to manage and enqueue GSAP libraries. Instead of manually registering scripts in `functions.php`, this plugin offers a visual interface to toggle specific GSAP modules on and off, loading them directly from a high-performance CDN (`cdnjs`).
 
@@ -8,6 +10,7 @@ The GreenSock Animation Platform (GSAP) is a robust JavaScript library for build
 
 ## Scope
 This plugin focuses strictly on **script management**.
+
 - **In Scope**:
     - Listing available GSAP 3 plugins.
     - Enabling/Disabling specific plugins via an admin UI.
