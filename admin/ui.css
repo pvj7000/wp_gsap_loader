@@ -22,6 +22,25 @@
     justify-content: space-between;
 }
 
+.gs-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gs-version-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    color: #23282d;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
 .gs-header-left {
     display: flex;
     flex-direction: column;
@@ -42,7 +61,7 @@
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
-    margin-left: 42px;
+    margin-left: 45px;
 }
 
 .gs-docs-link:hover {
