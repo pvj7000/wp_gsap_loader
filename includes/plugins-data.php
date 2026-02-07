@@ -41,15 +41,15 @@ function gsap_sl_get_plugins()
             'requires' => 'gsap-core',
         ],
         'scrollsmoother' => [
-            'name' => 'ScrollSmoother',
-            'handle' => 'gsap-scrollsmoother',
-            'filename' => 'ScrollSmoother.min.js',
-            'url' => $base_url . 'ScrollSmoother.min.js',
-            'description' => 'Silky smooth scrolling with parallax effects. (Requires ScrollTrigger)',
-            'category' => 'Scroll',
-            'color' => '#00bae2',
-            'requires' => 'gsap-scrolltrigger',
+        'handle'   => 'gsap-scrollsmoother',
+        'label'    => 'ScrollSmoother',
+        'file'     => 'ScrollSmoother.min.js',
+        'requires' => [
+            'gsap-core',
+            'gsap-scrolltrigger',
+            ],
         ],
+
         // UI
         'flip' => [
             'name' => 'Flip',
@@ -192,7 +192,10 @@ function gsap_sl_get_plugins()
             'description' => 'Create complex wiggle effects. (Requires CustomEase)',
             'category' => 'Eases',
             'color' => '#f7bdf8',
-            'requires' => 'gsap-customease',
+            'requires' => [
+                'gsap-core',
+                'gsap-customease',
+            ],
         ],
         'custombounce' => [
             'name' => 'CustomBounce',
@@ -202,7 +205,10 @@ function gsap_sl_get_plugins()
             'description' => 'Create realistic bounce effects. (Requires CustomEase)',
             'category' => 'Eases',
             'color' => '#f7bdf8',
-            'requires' => 'gsap-customease',
+            'requires' => [
+                'gsap-core',
+                'gsap-customease',
+            ],
         ],
         // Extra / Other
         'gsdevtools' => [
