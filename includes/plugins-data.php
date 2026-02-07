@@ -22,7 +22,7 @@ function gsap_sl_get_plugins()
             'description' => 'The core GreenSock Animation Platform. Required for all other plugins.',
             'category'    => 'Core',
             'color'       => '#0ae448',
-            'required'    => true,
+            'required'    => false,
             'requires'    => [],
         ],
 

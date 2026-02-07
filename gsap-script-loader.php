@@ -25,6 +25,7 @@ class GSAP_Script_Loader
 
     private const OPTION_LAST_KNOWN_VERSION = 'gsap_sl_last_known_version';
     private const OPTION_SETTINGS = 'gsap_sl_settings';
+    private const OPTION_EXTERNAL_ENQUEUES = 'gsap_sl_external_enqueues';
 
     public function __construct()
     {
@@ -32,6 +33,7 @@ class GSAP_Script_Loader
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
+        add_action('wp_print_scripts', [$this, 'capture_external_enqueues'], 999);
 
         add_action('wp_ajax_gsap_sl_save_setting', [$this, 'ajax_save_setting']);
         add_action('wp_ajax_gsap_sl_refresh_cdn_data', [$this, 'ajax_refresh_cdn_data']);
@@ -285,6 +287,38 @@ class GSAP_Script_Loader
                 true
             );
         }
+    }
+
+    public function capture_external_enqueues()
+    {
+        if (is_admin()) {
+            return;
+        }
+
+        $options = get_option(self::OPTION_SETTINGS, []);
+        $plugins = gsap_sl_get_plugins();
+        $external = [];
+
+        foreach ($plugins as $key => $plugin) {
+            $handle = $plugin['handle'] ?? '';
+            if (!is_string($handle) || $handle === '') {
+                continue;
+            }
+
+            $is_required = isset($plugin['required']) && $plugin['required'] === true;
+            $is_enabled = $is_required || (isset($options[$key]) && $options[$key] === '1');
+
+            if (!$is_enabled && wp_script_is($handle, 'enqueued')) {
+                $external[] = $key;
+            }
+        }
+
+        if (empty($external)) {
+            delete_option(self::OPTION_EXTERNAL_ENQUEUES);
+            return;
+        }
+
+        update_option(self::OPTION_EXTERNAL_ENQUEUES, array_values(array_unique($external)));
     }
 }
 

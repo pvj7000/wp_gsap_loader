@@ -162,6 +162,24 @@
     margin-bottom: 18px;
 }
 
+.gs-external-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #92400e;
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 999px;
+    padding: 2px 8px;
+    margin-top: -8px;
+    margin-bottom: 18px;
+    width: fit-content;
+}
+
 .gs-meta {
     font-size: 0.75rem !important;
     color: #aaa;

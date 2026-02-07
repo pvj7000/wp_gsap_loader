@@ -26,13 +26,19 @@
         <?php
         $options = get_option('gsap_sl_settings', []);
         $plugins = gsap_sl_get_plugins();
+        $externally_enqueued = get_option('gsap_sl_external_enqueues', []);
+        if (!is_array($externally_enqueued)) {
+            $externally_enqueued = [];
+        }
         $key_to_name = array_column($plugins, 'name');
         ?>
 
         <div class="gs-grid" id="gs-plugin-grid">
             <?php foreach ($plugins as $key => $plugin):
                 $is_required = isset($plugin['required']) && $plugin['required'] === true;
-                $checked = $is_required || (isset($options[$key]) && $options[$key] === '1');
+                $is_external = in_array($key, $externally_enqueued, true);
+                $checked = $is_external || $is_required || (isset($options[$key]) && $options[$key] === '1');
+                $is_toggle_locked = $is_required || $is_external;
 
                 $requires = (array) ($plugin['requires'] ?? []);
                 $requires_attr = !empty($requires) ? implode(',', array_map('sanitize_key', $requires)) : '';
@@ -65,7 +71,9 @@
                                 class="gs-plugin-toggle"
                                 data-handle="<?php echo esc_attr($key); ?>"
                                 <?php echo $requires_attr !== '' ? 'data-requires="' . esc_attr($requires_attr) . '"' : ''; ?>
-                                <?php echo $is_required ? 'data-required="1" disabled' : ''; ?>
+                                <?php echo $is_required ? 'data-required="1"' : ''; ?>
+                                <?php echo $is_external ? 'data-external="1"' : ''; ?>
+                                <?php echo $is_toggle_locked ? 'disabled' : ''; ?>
                                 <?php checked($checked, true); ?>
                             >
                             <span class="gs-slider"></span>
@@ -77,6 +85,12 @@
                     <?php if ($requires_label !== ''): ?>
                         <div class="gs-requires">
                             Requires: <?php echo esc_html($requires_label); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($is_external): ?>
+                        <div class="gs-external-notice">
+                            Enqueued elsewhere
                         </div>
                     <?php endif; ?>
 
