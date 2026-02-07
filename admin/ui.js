@@ -5,99 +5,148 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (searchInput) {
         searchInput.addEventListener('keyup', function (e) {
-            const query = e.target.value.toLowerCase();
-
+            const query = (e.target.value || '').toLowerCase();
             cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                if (name.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+                const name = card.getAttribute('data-name') || '';
+                card.style.display = name.includes(query) ? 'flex' : 'none';
             });
         });
     }
 
-    // Auto-Save Functionality
-    const toggles = document.querySelectorAll('.gs-plugin-toggle');
+    const toggles = Array.from(document.querySelectorAll('.gs-plugin-toggle'));
 
-    const activateRequiredToggle = (requiredHandle) => {
-        if (!requiredHandle) {
-            return;
+    const getRequires = (toggle) => {
+        const raw = toggle.getAttribute('data-requires');
+        if (!raw) return [];
+        return raw
+            .split(',')
+            .map(s => s.trim())
+            .filter(Boolean);
+    };
+
+    const getToggleByKey = (key) => {
+        return document.querySelector(`.gs-plugin-toggle[data-handle="${CSS.escape(key)}"]`);
+    };
+
+    const activateToggle = (key) => {
+        if (!key) return;
+        const t = getToggleByKey(key);
+        if (t && !t.checked) {
+            t.checked = true;
+            t.dispatchEvent(new Event('change'));
         }
-        const requiredToggle = document.querySelector(`.gs-plugin-toggle[data-handle="${requiredHandle}"]`);
-        if (requiredToggle && !requiredToggle.checked) {
-            requiredToggle.checked = true;
-            requiredToggle.dispatchEvent(new Event('change'));
+    };
+
+    const deactivateToggle = (key) => {
+        if (!key) return;
+        const t = getToggleByKey(key);
+        if (t && t.checked) {
+            t.checked = false;
+            t.dispatchEvent(new Event('change'));
         }
     };
 
     const enforceDependenciesOnLoad = () => {
         toggles.forEach(toggle => {
-            const requiredHandle = toggle.getAttribute('data-requires');
-            if (toggle.checked && requiredHandle) {
-                activateRequiredToggle(requiredHandle);
-            }
+            if (!toggle.checked) return;
+            getRequires(toggle).forEach(activateToggle);
         });
     };
 
     enforceDependenciesOnLoad();
 
+    const saveSetting = (toggle) => {
+        const handle = toggle.getAttribute('data-handle');
+        const isChecked = toggle.checked ? '1' : '0';
+
+        const slider = toggle.nextElementSibling;
+        if (slider) slider.style.opacity = '0.5';
+
+        const formData = new FormData();
+        formData.append('action', 'gsap_sl_save_setting');
+        formData.append('nonce', gsapVal.nonce);
+        formData.append('plugin_handle', handle);
+        formData.append('state', isChecked);
+
+        return fetch(gsapVal.ajax_url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (slider) slider.style.opacity = '1';
+                if (!data.success) {
+                    alert('Error saving setting.');
+                    toggle.checked = !toggle.checked;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (slider) slider.style.opacity = '1';
+                alert('Network error.');
+                toggle.checked = !toggle.checked;
+            });
+    };
+
     toggles.forEach(toggle => {
         toggle.addEventListener('change', function () {
             const handle = this.getAttribute('data-handle');
-            const isChecked = this.checked ? '1' : '0';
-            const requiredHandle = this.getAttribute('data-requires');
+            const isChecked = this.checked;
 
-            // Dependency Logic
-            // 1. If Plugin B (dependent) is switched ON -> Plugin A (dependency) must turn ON.
-            if (isChecked === '1' && requiredHandle) {
-                activateRequiredToggle(requiredHandle);
+            // 1) Switching ON -> switch ON all dependencies.
+            if (isChecked) {
+                getRequires(this).forEach(activateToggle);
             }
 
-            // 2. If Plugin A (dependency) is switched OFF -> Plugin B (dependent) must turn OFF.
-            if (isChecked === '0') {
-                // Find all plugins that require THIS plugin
-                const dependents = document.querySelectorAll(`.gs-plugin-toggle[data-requires="${handle}"]`);
-                dependents.forEach(dependent => {
-                    if (dependent.checked) {
-                        dependent.checked = false;
-                        // Trigger change to save the dependent's new state
-                        dependent.dispatchEvent(new Event('change'));
+            // 2) Switching OFF -> switch OFF all dependents.
+            if (!isChecked) {
+                toggles.forEach(other => {
+                    if (!other.checked) return;
+                    const reqs = getRequires(other);
+                    if (reqs.includes(handle)) {
+                        deactivateToggle(other.getAttribute('data-handle'));
                     }
                 });
             }
 
-            // Optional: Add visual loading state (e.g., opacity)
-            const slider = this.nextElementSibling;
-            slider.style.opacity = '0.5';
+            saveSetting(this);
+        });
+    });
+
+    // Manual refresh of CDN data (clears transients server-side)
+    const refreshBtn = document.getElementById('gs-refresh-cdn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+            refreshBtn.disabled = true;
+            refreshBtn.textContent = 'Refreshing…';
 
             const formData = new FormData();
-            formData.append('action', 'gsap_sl_save_setting');
+            formData.append('action', 'gsap_sl_refresh_cdn_data');
             formData.append('nonce', gsapVal.nonce);
-            formData.append('plugin_handle', handle);
-            formData.append('state', isChecked);
 
             fetch(gsapVal.ajax_url, {
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.json())
+                .then(r => r.json())
                 .then(data => {
-                    // Restore opacity on success
-                    slider.style.opacity = '1';
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = 'Refresh CDN data';
+
                     if (!data.success) {
-                        alert('Error saving setting.');
-                        // Revert toggle if failed
-                        this.checked = !this.checked;
+                        alert('Failed to refresh CDN data.');
+                        return;
                     }
+
+                    // Simple: reload to update the version pill.
+                    window.location.reload();
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    slider.style.opacity = '1';
+                .catch(err => {
+                    console.error(err);
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = 'Refresh CDN data';
                     alert('Network error.');
-                    this.checked = !this.checked;
                 });
         });
-    });
+    }
 });
