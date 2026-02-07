@@ -93,6 +93,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const handle = this.getAttribute('data-handle');
             const isChecked = this.checked;
 
+            if (!isChecked && handle === 'gsap-core') {
+                const confirmed = window.confirm('Deactivating GSAP Core will disable all other modules. Do you want to continue?');
+                if (!confirmed) {
+                    this.checked = true;
+                    return;
+                }
+            }
+
             // 1) Switching ON -> switch ON all dependencies.
             if (isChecked) {
                 getRequires(this).forEach(activateToggle);
